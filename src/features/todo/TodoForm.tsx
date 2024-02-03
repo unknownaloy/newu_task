@@ -7,17 +7,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import { addTodoSchema } from "./addTodoSchema";
 import { TodoFormInterface } from "../../common/interfaces/TodoFormInterface";
 import NumberInput from "../../components/NumberInput";
+import Select, { components } from "react-select";
+import DaysSelector from "../../components/DaysSelector";
 
 interface DailyOption {
   label: string;
   value: string;
-  disabled?: boolean;
 }
 
 const initialValues: TodoFormInterface = {
   title: "",
   trackingType: "",
-  trackingDays: null,
+  daysPerWeek: [],
   timesPerWeek: null,
   startDate: null,
 };
@@ -34,7 +35,7 @@ const TodoForm: React.FC = () => {
   ];
 
   const handleSubmit = async (values: TodoFormInterface) => {
-    console.log("Something here - ", values);
+    console.log("TodoForm - handleSubmit -- ", values);
   };
 
   return (
@@ -43,7 +44,16 @@ const TodoForm: React.FC = () => {
       validationSchema={addTodoSchema}
       onSubmit={handleSubmit}
     >
-      {({ handleChange, isSubmitting, values, errors, touched }) => (
+      {({
+        handleChange,
+        isSubmitting,
+        values,
+        errors,
+        touched,
+        setFieldTouched,
+        setFieldValue,
+        setValues,
+      }) => (
         <Form className="flex flex-col">
           {/* Title */}
           <label htmlFor="title">Title</label>
@@ -72,13 +82,37 @@ const TodoForm: React.FC = () => {
           <ErrorMessage name="trackingType" />
 
           {values.trackingType === "daily" && (
-            <MultiSelect
-              className="mt-[16px]"
-              options={dailyOptions}
-              value={[]}
-              onChange={() => console.log("Hello friend")}
-              labelledBy="Select"
-            />
+            <>
+              {/* <MultiSelect
+                className="mt-[16px]"
+                options={dailyOptions}
+                value={[]}
+                onChange={() => console.log("Hello friend")}
+                labelledBy="Select"
+              /> */}
+
+              <DaysSelector />
+
+              {/* <Select
+                isMulti={true}
+                value={values.daysPerWeek}
+                onBlur={() => {
+                  // setFieldTouched("daysPerWeek", true, false);
+                  setFieldTouched("daysPerWeek", true);
+                }}
+                // onFocus={() => {
+                //   setFieldTouched("daysPerWeek", true, false);
+                // }}
+                onChange={(array) => {
+                  console.log("array - ", array);
+                  console.log("values - ", values);
+                  console.log("errors - ", errors);
+                  setFieldValue("daysPerWeek", array);
+                }}
+                options={dailyOptions}
+              />
+              <ErrorMessage name="daysPerWeek" /> */}
+            </>
           )}
           {values.trackingType === "weekly" && (
             <>
