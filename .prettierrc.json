@@ -1,0 +1,6 @@
+{
+    "arrowParens": "avoid",
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "trailingComma": "es5"
+}
