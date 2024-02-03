@@ -1,10 +1,12 @@
-import WelcomeAndDate from "./components/WelcomeAndDate";
+import HomeScreen from "./components/HomeScreen";
+
+import { AuthProvider } from "./features/authentication/authContext";
 
 function App() {
   return (
-    <div className="flex flex-col">
-      <WelcomeAndDate />
-    </div>
+    <AuthProvider>
+      <HomeScreen />
+    </AuthProvider>
   );
 }
 
