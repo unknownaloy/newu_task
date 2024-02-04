@@ -9,7 +9,7 @@ type AuthContextType = {
   userId: string;
 };
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType>({userId: ""});
 
 AuthContext.displayName = "AuthContext";
 

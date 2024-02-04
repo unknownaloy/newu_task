@@ -1,41 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { MultiSelect } from "react-multi-select-component";
+import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
 import { addDays } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { addTodoSchema } from "./addTodoSchema";
 import { TodoFormInterface } from "../../common/interfaces/TodoFormInterface";
 import NumberInput from "../../components/NumberInput";
-import Select, { components } from "react-select";
 import DaysSelector from "../../components/DaysSelector";
-
-interface DailyOption {
-  label: string;
-  value: string;
-}
+import { useAuth } from "../authentication/authContext";
+import { saveTodoInDatabase } from "./services/todoService";
+import { IToDoData } from "../../common/interfaces/ITodoData";
+import { todoDocumentReference, todoDocumentReferenceId } from "./todoRefs";
 
 const initialValues: TodoFormInterface = {
   title: "",
   trackingType: "",
   daysPerWeek: [],
-  timesPerWeek: null,
+  timesPerWeek: "",
   startDate: null,
 };
 
 const TodoForm: React.FC = () => {
-  const dailyOptions: DailyOption[] = [
-    { label: "Monday", value: "monday" },
-    { label: "Tuesday", value: "tuesday" },
-    { label: "Wednesday", value: "wednesday" },
-    { label: "Thursday", value: "thursday" },
-    { label: "Friday", value: "friday" },
-    { label: "Saturday", value: "saturday" },
-    { label: "Sunday", value: "sunday" },
-  ];
+  const { userId } = useAuth();
 
   const handleSubmit = async (values: TodoFormInterface) => {
     console.log("TodoForm - handleSubmit -- ", values);
+
+    try {
+      let todoData: IToDoData | undefined;
+
+      const todoDocRef = todoDocumentReference(userId);
+
+      if (values.trackingType === "daily") {
+        // Extracting all the selected days. Values cannot be null at this point
+        const selectedDays = values.daysPerWeek!.map(option => option.value);
+
+        todoData = {
+          id: todoDocRef.id,
+          title: values.title,
+          trackingType: values.trackingType,
+          daysPerWeek: selectedDays,
+          timesPerWeek: null,
+        };
+      } else if (values.trackingType === "weekly") {
+        todoData = {
+          id: todoDocRef.id,
+          title: values.title,
+          trackingType: values.trackingType,
+          daysPerWeek: [],
+          timesPerWeek: Number(values.timesPerWeek) ?? 1,
+        };
+      }
+
+      // Ensure that todoData is defined before calling saveTodoInDatabase
+      if (todoData !== undefined) {
+
+        await saveTodoInDatabase(todoData, todoDocRef);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -53,6 +77,7 @@ const TodoForm: React.FC = () => {
         setFieldTouched,
         setFieldValue,
         setValues,
+        resetForm,
       }) => (
         <Form className="flex flex-col">
           {/* Title */}
@@ -79,40 +104,11 @@ const TodoForm: React.FC = () => {
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
           </Field>
+
           <ErrorMessage name="trackingType" />
 
           {values.trackingType === "daily" && (
-            <>
-              {/* <MultiSelect
-                className="mt-[16px]"
-                options={dailyOptions}
-                value={[]}
-                onChange={() => console.log("Hello friend")}
-                labelledBy="Select"
-              /> */}
-
-              <DaysSelector />
-
-              {/* <Select
-                isMulti={true}
-                value={values.daysPerWeek}
-                onBlur={() => {
-                  // setFieldTouched("daysPerWeek", true, false);
-                  setFieldTouched("daysPerWeek", true);
-                }}
-                // onFocus={() => {
-                //   setFieldTouched("daysPerWeek", true, false);
-                // }}
-                onChange={(array) => {
-                  console.log("array - ", array);
-                  console.log("values - ", values);
-                  console.log("errors - ", errors);
-                  setFieldValue("daysPerWeek", array);
-                }}
-                options={dailyOptions}
-              />
-              <ErrorMessage name="daysPerWeek" /> */}
-            </>
+            <DaysSelector name="daysPerWeek" />
           )}
           {values.trackingType === "weekly" && (
             <>

@@ -1,9 +1,12 @@
-import { Field, FieldProps } from 'formik';
-import React from "react";
+import { Field, FieldProps } from "formik";
 import Select from "react-select";
-import { TodoFormInterface } from '../common/interfaces/TodoFormInterface';
-import { IDailyOption } from '../common/interfaces/IDailyOption';
 
+import { IDailyOption } from "../common/interfaces/IDailyOption";
+
+type DaysSelectorProp = {
+  name: string;
+  label?: string;
+};
 
 const dailyOptions: IDailyOption[] = [
   { label: "Monday", value: "monday" },
@@ -15,19 +18,27 @@ const dailyOptions: IDailyOption[] = [
   { label: "Sunday", value: "sunday" },
 ];
 
-const DaysSelector = () => {
+const DaysSelector = ({ name, label = "Days per week" }: DaysSelectorProp) => {
   return (
-    <Field name="daysPerWeek">
-      {({ field, form, meta } : FieldProps<IDailyOption>) => (
-        <Select
-          {...field}
-          isMulti
-          id="daysPerWeek"
-          onChange={values => form.setFieldValue("daysPerWeek", values)}
-          options={dailyOptions}
-          className="basic-multi-select"
-          classNamePrefix="select"
-        />
+    <Field name={name}>
+      {({ field, form, meta }: FieldProps<IDailyOption>) => (
+        <div className="flex flex-col gap-[2px]">
+          <label className="mt-[16px]" htmlFor={name}>
+            {label}
+          </label>
+          <Select
+            {...field}
+            isMulti
+            id={name}
+            onChange={values => form.setFieldValue(name, values)}
+            options={dailyOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+          />
+          {meta.touched && meta.error && (
+            <div className="error">{meta.error}</div>
+          )}
+        </div>
       )}
     </Field>
   );
