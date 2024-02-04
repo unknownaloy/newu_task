@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
-import { addDays } from "date-fns";
-import "react-datepicker/dist/react-datepicker.css";
+import React from "react";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 
+import DaysSelector from "../../components/DaysSelector";
+import NumberInput from "../../components/NumberInput";
 import { addTodoSchema } from "./addTodoSchema";
 import { TodoFormInterface } from "../../common/interfaces/TodoFormInterface";
-import NumberInput from "../../components/NumberInput";
-import DaysSelector from "../../components/DaysSelector";
 import { useAuth } from "../authentication/authContext";
 import { saveTodoInDatabase } from "./services/todoService";
 import { IToDoData } from "../../common/interfaces/ITodoData";
-import { todoDocumentReference, todoDocumentReferenceId } from "./todoRefs";
+import { todoDocumentReference } from "./todoRefs";
 
 const initialValues: TodoFormInterface = {
   title: "",
   trackingType: "",
-  daysPerWeek: [],
+  daysPerWeek: null,
   timesPerWeek: "",
   startDate: null,
 };
@@ -23,9 +21,10 @@ const initialValues: TodoFormInterface = {
 const TodoForm: React.FC = () => {
   const { userId } = useAuth();
 
-  const handleSubmit = async (values: TodoFormInterface) => {
-    console.log("TodoForm - handleSubmit -- ", values);
-
+  const handleSubmit = async (
+    values: TodoFormInterface,
+    { resetForm }: FormikHelpers<TodoFormInterface>
+  ) => {
     try {
       let todoData: IToDoData | undefined;
 
@@ -41,6 +40,7 @@ const TodoForm: React.FC = () => {
           trackingType: values.trackingType,
           daysPerWeek: selectedDays,
           timesPerWeek: null,
+          streak: 0,
         };
       } else if (values.trackingType === "weekly") {
         todoData = {
@@ -49,13 +49,15 @@ const TodoForm: React.FC = () => {
           trackingType: values.trackingType,
           daysPerWeek: [],
           timesPerWeek: Number(values.timesPerWeek) ?? 1,
+          streak: 0,
         };
       }
 
       // Ensure that todoData is defined before calling saveTodoInDatabase
       if (todoData !== undefined) {
-
         await saveTodoInDatabase(todoData, todoDocRef);
+
+        resetForm();
       }
     } catch (err) {
       console.log(err);
@@ -68,17 +70,7 @@ const TodoForm: React.FC = () => {
       validationSchema={addTodoSchema}
       onSubmit={handleSubmit}
     >
-      {({
-        handleChange,
-        isSubmitting,
-        values,
-        errors,
-        touched,
-        setFieldTouched,
-        setFieldValue,
-        setValues,
-        resetForm,
-      }) => (
+      {({ isSubmitting, values }) => (
         <Form className="flex flex-col">
           {/* Title */}
           <label htmlFor="title">Title</label>
@@ -87,7 +79,11 @@ const TodoForm: React.FC = () => {
             name="title"
             placeholder="Enter todo title"
           />
-          <ErrorMessage name="title" />
+          <ErrorMessage
+            name="title"
+            className="text-red-500 text-[14px]"
+            component="span"
+          />
 
           {/* Tracking type */}
           <label className="mt-[16px]" htmlFor="trackingType">
@@ -105,14 +101,18 @@ const TodoForm: React.FC = () => {
             <option value="weekly">Weekly</option>
           </Field>
 
-          <ErrorMessage name="trackingType" />
+          <ErrorMessage
+            name="trackingType"
+            className="text-red-500 text-[14px]"
+            component="span"
+          />
 
           {values.trackingType === "daily" && (
             <DaysSelector name="daysPerWeek" />
           )}
           {values.trackingType === "weekly" && (
             <>
-              <label className="mt-[16px]" htmlFor="trackingType">
+              <label className="mt-[16px]" htmlFor="timesPerWeek">
                 Times per week
               </label>
               <Field
@@ -120,12 +120,27 @@ const TodoForm: React.FC = () => {
                 as={NumberInput}
                 name="timesPerWeek"
               />
-              <ErrorMessage name="timesPerWeek" />
+              <ErrorMessage
+                name="timesPerWeek"
+                className="text-red-500 text-[14px]"
+                component="span"
+              />
             </>
           )}
 
-          <button className="mt-[16px]" type="submit">
-            Submit
+          <button
+            disabled={isSubmitting}
+            className="mt-[16px] bg-accent p-[8px] text-white rounded-[4px] flex justify-center items-center"
+            type="submit"
+          >
+            {isSubmitting ? (
+              <svg
+                className="mr-3 h-6 w-6 animate-spin rounded-full border-l-4 border-white"
+                viewBox="0 0 24 24"
+              ></svg>
+            ) : (
+              "Submit"
+            )}
           </button>
         </Form>
       )}

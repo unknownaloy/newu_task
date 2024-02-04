@@ -36,7 +36,7 @@ const DaysSelector = ({ name, label = "Days per week" }: DaysSelectorProp) => {
             classNamePrefix="select"
           />
           {meta.touched && meta.error && (
-            <div className="error">{meta.error}</div>
+            <div className="text-red-500">{meta.error}</div>
           )}
         </div>
       )}

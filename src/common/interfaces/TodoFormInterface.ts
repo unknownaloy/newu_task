@@ -4,6 +4,6 @@ export interface TodoFormInterface {
   title: string;
   trackingType: "daily" | "weekly" | "";
   daysPerWeek?: IDailyOption[] | null;
-  timesPerWeek: number | "";
+  timesPerWeek: string;
   startDate: Date | null;
 }

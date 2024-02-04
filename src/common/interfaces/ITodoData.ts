@@ -4,7 +4,7 @@ export interface IToDoData {
     trackingType: "daily" | "weekly";
     daysPerWeek: string[],
     timesPerWeek: number | null,
-    streak: 0,
+    streak: number,
 
     // TODO: Add start date
 }
