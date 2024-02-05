@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getCurrentDate } from "../utils/calendarUtils";
+import { getCurrentDate } from "../utils/dateHelper";
 import AddTodoButton from "./AddTodoButton";
 
 const WelcomeAndDate = () => {

@@ -1,10 +1,10 @@
-export interface IToDoData {
-    id: string,
+export interface ITodoData {
+    id?: string,
     title: string;
     trackingType: "daily" | "weekly";
     daysPerWeek: string[],
     timesPerWeek: number | null,
     streak: number,
-
-    // TODO: Add start date
+    lastStreak: number | null;
+    longestStreak: number;
 }

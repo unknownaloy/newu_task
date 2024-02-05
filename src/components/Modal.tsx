@@ -12,7 +12,7 @@ const Modal = ({ open, onClose, children }: ModalProps) => {
   return (
     <div
       onClick={onClose}
-      className={`fixed inset-0 flex justify-center items-center overflow-y-auto ${open ? "visible bg-black bg-opacity-20" : "invisible"}`}
+      className={`fixed inset-0 flex justify-center items-center overflow-y-auto z-50 ${open ? "visible bg-black bg-opacity-20" : "invisible"}`}
     >
       {/* Modal */}
       <div

@@ -1,13 +1,23 @@
+import { useEffect } from "react";
+import { useAppDispatch } from "./app/hooks";
+
+import { getUserId } from "./features/authentication/service/authService";
+import { setUserId } from "./features/authentication/store/authSlice";
+
 import HomeScreen from "./components/HomeScreen";
 
-import { AuthProvider } from "./features/authentication/authContext";
-
 function App() {
-  return (
-    <AuthProvider>
-      <HomeScreen />
-    </AuthProvider>
-  );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Retrieving the user ID from local storage
+    const userId = getUserId();
+
+    // Saving userId to store
+    dispatch(setUserId(userId));
+  }, [dispatch]);
+
+  return <HomeScreen />;
 }
 
 export default App;

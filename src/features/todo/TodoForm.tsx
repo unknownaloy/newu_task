@@ -5,10 +5,9 @@ import DaysSelector from "../../components/DaysSelector";
 import NumberInput from "../../components/NumberInput";
 import { addTodoSchema } from "./addTodoSchema";
 import { TodoFormInterface } from "../../common/interfaces/TodoFormInterface";
-import { useAuth } from "../authentication/authContext";
-import { saveTodoInDatabase } from "./services/todoService";
-import { IToDoData } from "../../common/interfaces/ITodoData";
-import { todoDocumentReference } from "./todoRefs";
+import { ITodoData } from "../../common/interfaces/ITodoData";
+import { useAppDispatch } from "../../app/hooks";
+import { addTodo } from "./store/todoSlice";
 
 const initialValues: TodoFormInterface = {
   title: "",
@@ -19,43 +18,45 @@ const initialValues: TodoFormInterface = {
 };
 
 const TodoForm: React.FC = () => {
-  const { userId } = useAuth();
+
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (
     values: TodoFormInterface,
     { resetForm }: FormikHelpers<TodoFormInterface>
   ) => {
     try {
-      let todoData: IToDoData | undefined;
-
-      const todoDocRef = todoDocumentReference(userId);
+      let todoData: ITodoData | undefined;
 
       if (values.trackingType === "daily") {
         // Extracting all the selected days. Values cannot be null at this point
         const selectedDays = values.daysPerWeek!.map(option => option.value);
 
         todoData = {
-          id: todoDocRef.id,
           title: values.title,
           trackingType: values.trackingType,
           daysPerWeek: selectedDays,
           timesPerWeek: null,
           streak: 0,
+          longestStreak: 0,
+          lastStreak: null,
         };
       } else if (values.trackingType === "weekly") {
         todoData = {
-          id: todoDocRef.id,
           title: values.title,
           trackingType: values.trackingType,
           daysPerWeek: [],
           timesPerWeek: Number(values.timesPerWeek) ?? 1,
           streak: 0,
+          longestStreak: 0,
+          lastStreak: null,
         };
       }
 
       // Ensure that todoData is defined before calling saveTodoInDatabase
       if (todoData !== undefined) {
-        await saveTodoInDatabase(todoData, todoDocRef);
+        // Dispatch method to create a new todo
+        dispatch(addTodo(todoData));
 
         resetForm();
       }
