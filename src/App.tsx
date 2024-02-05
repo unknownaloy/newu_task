@@ -4,7 +4,7 @@ import { useAppDispatch } from "./app/hooks";
 import { getUserId } from "./features/authentication/service/authService";
 import { setUserId } from "./features/authentication/store/authSlice";
 
-import HomeScreen from "./components/HomeScreen";
+import HomeScreen from "./shared/HomeScreen";
 
 function App() {
   const dispatch = useAppDispatch();

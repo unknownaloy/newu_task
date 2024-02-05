@@ -1,12 +1,14 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 
-import DaysSelector from "../../components/DaysSelector";
-import NumberInput from "../../components/NumberInput";
-import { addTodoSchema } from "./addTodoSchema";
+import DaysSelector from "../../shared/DaysSelector";
+import NumberInput from "../../shared/NumberInput";
+
 import { TodoFormInterface } from "../../common/interfaces/TodoFormInterface";
 import { ITodoData } from "../../common/interfaces/ITodoData";
+import { addTodoSchema } from "./addTodoSchema";
 import { useAppDispatch } from "../../app/hooks";
+import { arrangeDaysOfWeek } from "../../utils/todoHelper";
 import { addTodo } from "./store/todoSlice";
 
 const initialValues: TodoFormInterface = {
@@ -18,7 +20,6 @@ const initialValues: TodoFormInterface = {
 };
 
 const TodoForm: React.FC = () => {
-
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (
@@ -30,7 +31,9 @@ const TodoForm: React.FC = () => {
 
       if (values.trackingType === "daily") {
         // Extracting all the selected days. Values cannot be null at this point
-        const selectedDays = values.daysPerWeek!.map(option => option.value);
+        let selectedDays = values.daysPerWeek!.map(option => option.value);
+
+        selectedDays = arrangeDaysOfWeek(selectedDays);
 
         todoData = {
           title: values.title,
