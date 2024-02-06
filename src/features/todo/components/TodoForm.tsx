@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 
 import DaysSelector from "../../../shared/DaysSelector";
@@ -74,7 +73,11 @@ const TodoForm = ({ todo }: TodoFormProp) => {
           title: values.title,
           trackingType: values.trackingType,
           daysPerWeek: [],
-          timesPerWeek: Number(values.timesPerWeek) ?? 1,
+          // timesPerWeek: Number(values.timesPerWeek) ?? 1,
+          timesPerWeek:
+            Number(values.timesPerWeek) || Number(values.timesPerWeek) === 0
+              ? Number(values.timesPerWeek)
+              : 1,
           streak: 0,
           longestStreak: 0,
           lastStreak: todo?.lastStreak ?? new Date().getTime(),
@@ -86,7 +89,6 @@ const TodoForm = ({ todo }: TodoFormProp) => {
         if (todo == null) {
           // Dispatch method to create a new todo
           dispatch(addTodo(todoData));
-
           resetForm();
         } else {
           // Update todo

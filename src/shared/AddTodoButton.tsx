@@ -4,10 +4,10 @@ import Modal from "./Modal";
 import TodoForm from "../features/todo/components/TodoForm";
 
 const AddTodoButton = () => {
-  const [open, setOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div className="w-[512px] flex flex-col">
           <h1 className="font-medium text-[18px] mb-[18px]">Add Todo</h1>
 
@@ -15,7 +15,7 @@ const AddTodoButton = () => {
         </div>
       </Modal>
       <button
-        onClick={() => setOpen(true)}
+        onClick={() => setShowModal(true)}
         className="rounded-[10px] bg-accent px-[24px] py-[8px] text-white h-[48px]"
       >
         Add Todo

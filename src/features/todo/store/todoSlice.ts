@@ -29,6 +29,7 @@ const initialState: TodoState = {
 }
 
 
+// Fetch a user todo from cloud firestore
 export const fetchTodos = createAsyncThunk("todos/fetchTodos", async (userId: string) => {
     const querySnapshot = await getDocs(collection(db, "users", userId, "todos"));
     const todos = querySnapshot.docs.map(doc => (doc.data() as ITodoData));
@@ -37,12 +38,12 @@ export const fetchTodos = createAsyncThunk("todos/fetchTodos", async (userId: st
 });
 
 
+// Add a new todo to cloud firestore
 export const addTodo = createAsyncThunk("todo/addTodo", async (todo: ITodoData, thunkApi) => {
     const state = thunkApi.getState() as RootState;
 
     const todoRef = doc(collection(db, "users", state.auth.userId, "todos"));
 
-    // const data = { id: todoRef.id, ...todo };
     const data = { ...todo, id: todoRef.id };
 
     await setDoc(todoRef, data);
@@ -51,6 +52,7 @@ export const addTodo = createAsyncThunk("todo/addTodo", async (todo: ITodoData, 
 });
 
 
+// Update/Edit a todo
 export const updateATodo = createAsyncThunk("todo/updateATodo", async (todo: ITodoData, thunkApi) => {
     const updatedData = { ...todo };
     const state = thunkApi.getState() as RootState;
@@ -63,6 +65,7 @@ export const updateATodo = createAsyncThunk("todo/updateATodo", async (todo: ITo
 });
 
 
+// Function to make a daily todo as completed
 export const completeDailyTodo = createAsyncThunk("todo/completeDailyTodo", async (todo: ITodoData, thunkApi) => {
 
     // Mutable copy of the todo
@@ -142,6 +145,7 @@ export const completeDailyTodo = createAsyncThunk("todo/completeDailyTodo", asyn
 });
 
 
+// Function to mark a weekly todo as completed
 export const completeWeeklyTodo = createAsyncThunk("todo/completeWeeklyTodo", async (todo: ITodoData, thunkApi) => {
 
     // Mutable copy of the todo

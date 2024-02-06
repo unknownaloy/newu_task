@@ -4,7 +4,7 @@ A streak feature for a todo app that tracks daily or weekly completion and prese
 
 ## Prerequisites
 
-- Ensure you Node installed on your PC. You can download it from [here](https://nodejs.org/en/download/current)
+- Ensure you _Node_ installed on your PC. You can download it from [here](https://nodejs.org/en/download/current)
 - Ensure you have an IDE installed, such as [Visual Studio Code](https://code.visualstudio.com/download) or [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 
 ## Getting Started
@@ -12,23 +12,28 @@ A streak feature for a todo app that tracks daily or weekly completion and prese
 - Clone this repository to your local machine using `https://github.com/unknownaloy/newu_task.git`
 - Open the project in your preferred code editor.
 - Run `npm install` to install the app's dependencies.
-- Run `npm run dev` to build the app on your browser.
+- Run `npm run dev` to build the app and view it in your browser.
 
-## Running Tests
+## Project Configuration
 
-- Open the project in your preferred code editor.
-- Run `flutter test` to run all tests in the project
+Cloud Firestore is being used to persist todo data for a user in combination with localStorage, which holds a unique ID for a user. The firebaseConfig.ts file is already included in the project. If you prefer to use your own Firestore configuration, follow these instructions:
 
-## Feature
+- Replace the content of `firebaseConfig.ts` with your own configuration obtained from Firebase.
+- Refer to the screenshot below for an illustration of where to locate the directory: 👇🏽
 
-- Feature to add a daily todo and pick customized dates
-- Feature to add a weekly todo and pick frequency per week
-- Feature to track streak of todo and reset streak when broken
-- Feature to edit/change todo type from daily to weekly or vise-versa while maintaining current streak
-- Feature to keep track on user's longest streak count for a todo
+<a href="https://drive.google.com/uc?export=view&id=1hs7CaPIZr56fTG3KnfrndBdAm8TSFfBd"><img alt="Instruction screenshot" src="https://drive.google.com/uc?export=view&id=1hs7CaPIZr56fTG3KnfrndBdAm8TSFfBd" style="width: 640px" title="Click to enlarge picture" />
+
+## Features
+
+- Add daily todos and select specific days.
+- Add weekly todos and choose frequency per week.
+- Add weekly todos and choose frequency per week.
+- Edit/change todo types from daily to weekly or vice versa while maintaining the current streak.
+- Keep track of the user's longest streak count for a todo.
 
 ## Further Improvements
 
-- Implement better error handling across the app
-- Implement unit test to help ascertain core logics
-- Implement mobile responsiveness for the app
+- Implement better error handling throughout the app.
+- Add unit tests to verify core functionalities.
+- Enhance mobile responsiveness.
+- Implement UI to handle empty states or errors gracefully.

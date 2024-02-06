@@ -1,11 +1,12 @@
 import { useState } from "react";
+
 import MoreVert from "./MoreVert";
 import TodoPopup from "./TodoPopup";
+import Modal from "../../../shared/Modal";
+import TodoForm from "./TodoForm";
 import { ITodoData } from "../../../common/interfaces/ITodoData";
 import { useAppDispatch } from "../../../app/hooks";
 import { completeWeeklyTodo } from "../store/todoSlice";
-import Modal from "../../../shared/Modal";
-import TodoForm from "./TodoForm";
 
 type WeeklyCardProp = {
   todo: ITodoData;
@@ -52,9 +53,11 @@ const WeeklyCard = ({ todo }: WeeklyCardProp) => {
 
       <span>Times per week: {todo.timesPerWeek}</span>
 
-      <span>Streak: {todo.streak}</span>
+      <span className="font-semibold text-[14px]">Streak: {todo.streak}</span>
       {todo.longestStreak > 0 && (
-        <span>Longest Streak: {todo.longestStreak}</span>
+        <span className="font-bold text-[14px]">
+          Longest Streak: {todo.longestStreak}
+        </span>
       )}
     </div>
   );

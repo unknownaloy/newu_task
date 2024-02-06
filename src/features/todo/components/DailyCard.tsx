@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
+
 import MoreVert from "./MoreVert";
-import useOnClickOutside from "../../../common/hooks/useOnOutsideClick";
-import { ITodoData } from "../../../common/interfaces/ITodoData";
-import { useAppDispatch } from "../../../app/hooks";
-import { completeDailyTodo } from "../store/todoSlice";
 import TodoPopup from "./TodoPopup";
 import Modal from "../../../shared/Modal";
 import TodoForm from "./TodoForm";
+import { ITodoData } from "../../../common/interfaces/ITodoData";
+import { capitalizeFirstLetter } from "../../../utils/todoHelper";
+import { completeDailyTodo } from "../store/todoSlice";
+import { useAppDispatch } from "../../../app/hooks";
+import useOnClickOutside from "../../../common/hooks/useOnOutsideClick";
 
 type DailyCardProp = {
   todo: ITodoData;
@@ -59,14 +61,16 @@ const DailyCard = ({ todo }: DailyCardProp) => {
             className="rounded-[8px] px-[4px] py-[1px] bg-white text-accent border-accent border-[2px]"
             key={day}
           >
-            {day}
+            {capitalizeFirstLetter(day)}
           </div>
         ))}
       </div>
 
-      <span>Streak: {todo.streak}</span>
+      <span className="font-semibold text-[14px]">Streak: {todo.streak}</span>
       {todo.longestStreak > 0 && (
-        <span>Longest Streak: {todo.longestStreak}</span>
+        <span className="font-semibold text-[14px]">
+          Longest Streak: {todo.longestStreak}
+        </span>
       )}
     </div>
   );

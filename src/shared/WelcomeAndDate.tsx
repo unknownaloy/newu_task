@@ -21,7 +21,9 @@ const WelcomeAndDate = () => {
     const getCurrentDay = new Date().getDay();
 
     if (getCurrentDay > loggedInDate) {
+      // Updated the current day in store
       dispatch(updateLoggedInDay(getCurrentDay));
+
       dispatch(fetchTodos(userId));
     }
   };

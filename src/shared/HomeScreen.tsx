@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+
 import CompletedTodos from "../features/todo/components/CompletedTodos";
 import DailyTodos from "../features/todo/components/DailyTodos";
 import WeeklyTodos from "../features/todo/components/WeeklyTodos";
 import WelcomeAndDate from "./WelcomeAndDate";
-import { fetchTodos } from "../features/todo/store/todoSlice";
 import UpcomingTodos from "../features/todo/components/UpcomingTodos";
+
+import { fetchTodos } from "../features/todo/store/todoSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 const HomeScreen = () => {
   const userId = useAppSelector(state => state.auth.userId);
@@ -13,6 +15,7 @@ const HomeScreen = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Fetch saved Todos on initial launch
     dispatch(fetchTodos(userId));
   }, [dispatch, userId]);
 

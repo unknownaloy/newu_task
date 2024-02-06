@@ -1,4 +1,5 @@
 import { ITodoData } from "../../../common/interfaces/ITodoData";
+import { capitalizeFirstLetter } from "../../../utils/todoHelper";
 
 type CompletedCardProp = {
   todo: ITodoData;
@@ -14,14 +15,16 @@ const CompletedCard = ({ todo }: CompletedCardProp) => {
             className="rounded-[8px] px-[4px] py-[1px] bg-white text-accent border-accent border-[2px]"
             key={day}
           >
-            {day}
+            {capitalizeFirstLetter(day)}
           </div>
         ))}
       </div>
 
-      <span>Streak: {todo.streak}</span>
+      <span className="font-semibold text-[14px]">Streak: {todo.streak}</span>
       {todo.longestStreak > 0 && (
-        <span>Longest Streak: {todo.longestStreak}</span>
+        <span className="font-bold text-[14px]">
+          Longest Streak: {todo.longestStreak}
+        </span>
       )}
     </div>
   );
