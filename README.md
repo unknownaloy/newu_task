@@ -33,6 +33,7 @@ Cloud Firestore is being used to persist todo data for a user in combination wit
 
 ## Further Improvements
 
+- Implement feature to enable back-tracking habits from the past, with streak remaining unchanged.
 - Implement better error handling throughout the app.
 - Add unit tests to verify core functionalities.
 - Enhance mobile responsiveness.
