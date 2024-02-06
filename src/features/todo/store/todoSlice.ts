@@ -29,7 +29,6 @@ const initialState: TodoState = {
 }
 
 
-// TODO: Add try-catch
 export const fetchTodos = createAsyncThunk("todos/fetchTodos", async (userId: string) => {
     const querySnapshot = await getDocs(collection(db, "users", userId, "todos"));
     const todos = querySnapshot.docs.map(doc => (doc.data() as ITodoData));
@@ -38,7 +37,6 @@ export const fetchTodos = createAsyncThunk("todos/fetchTodos", async (userId: st
 });
 
 
-// TODO: Add try-catch
 export const addTodo = createAsyncThunk("todo/addTodo", async (todo: ITodoData, thunkApi) => {
     const state = thunkApi.getState() as RootState;
 
@@ -143,7 +141,6 @@ export const completeWeeklyTodo = createAsyncThunk("todo/completeWeeklyTodo", as
         const weekDifference = Math.round((currentWeek - todo.lastStreak) / (1000 * 60 * 60 * 24 * 7));
 
         if (weekDifference === 0) {
-            console.log("GOT HERE");
             // Same week just increase streak and update last
             // updatedData = { ...todo, streak: todo.streak++ };
 
