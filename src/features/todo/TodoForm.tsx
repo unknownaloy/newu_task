@@ -52,7 +52,7 @@ const TodoForm: React.FC = () => {
           timesPerWeek: Number(values.timesPerWeek) ?? 1,
           streak: 0,
           longestStreak: 0,
-          lastStreak: null,
+          lastStreak: new Date().getTime(),
         };
       }
 

@@ -4,6 +4,7 @@ import useOnClickOutside from "../../../common/hooks/useOnOutsideClick";
 import { ITodoData } from "../../../common/interfaces/ITodoData";
 import { useAppDispatch } from "../../../app/hooks";
 import { completeDailyTodo } from "../store/todoSlice";
+import TodoPopup from "./TodoPopup";
 
 type DailyCardProp = {
   todo: ITodoData;
@@ -32,23 +33,11 @@ const DailyCard = ({ todo }: DailyCardProp) => {
         onClick={handleShowPopup}
         className="absolute top-[16px] right-[16px]"
       />
-
-      {showOption && (
-        <div
-          ref={popupRef}
-          className="transition-all absolute bg-white w-[96px] flex flex-col gap-[10px] h-auto shadow-md rounded-[4px] right-[-88px] top-[-8px] py-[8px] px-[16px]"
-        >
-          <div
-            onClick={handleOnCompleted}
-            className="font-normal text-[14px] hover:font-semibold transition-all cursor-pointer"
-          >
-            Complete
-          </div>
-          <div className="font-normal text-[14px] hover:font-semibold transition-all cursor-pointer">
-            Edit
-          </div>
-        </div>
-      )}
+      <TodoPopup
+        showPopup={showOption}
+        closePopup={() => setShowOption(false)}
+        onComplete={handleOnCompleted}
+      />
 
       <h6 className="font-bold text-[16px]">{todo.title}</h6>
       <div className="flex flex-wrap gap-[8px]">
@@ -63,6 +52,9 @@ const DailyCard = ({ todo }: DailyCardProp) => {
       </div>
 
       <span>Streak: {todo.streak}</span>
+      {todo.longestStreak > 0 && (
+        <span>Longest Streak: {todo.longestStreak}</span>
+      )}
     </div>
   );
 };

@@ -15,12 +15,7 @@ const WeeklyTodos = () => {
         <h1 className="self-center font-semibold mb-[10px]">Weekly Todos</h1>
 
         {weeklyTodos.map(todo => (
-          <WeeklyCard
-            key={todo.id}
-            title={todo.title}
-            timesPerWeek={todo.timesPerWeek ?? 1}
-            streak={todo.streak}
-          />
+          <WeeklyCard key={todo.id} todo={todo} />
         ))}
       </div>
     </div>
