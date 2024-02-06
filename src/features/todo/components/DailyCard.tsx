@@ -5,6 +5,8 @@ import { ITodoData } from "../../../common/interfaces/ITodoData";
 import { useAppDispatch } from "../../../app/hooks";
 import { completeDailyTodo } from "../store/todoSlice";
 import TodoPopup from "./TodoPopup";
+import Modal from "../../../shared/Modal";
+import TodoForm from "../TodoForm";
 
 type DailyCardProp = {
   todo: ITodoData;
@@ -18,6 +20,8 @@ const DailyCard = ({ todo }: DailyCardProp) => {
   useOnClickOutside(popupRef, () => setShowOption(false));
 
   const [showOption, setShowOption] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
 
   const handleShowPopup = (): void => {
     setShowOption(prevState => !prevState);
@@ -37,7 +41,16 @@ const DailyCard = ({ todo }: DailyCardProp) => {
         showPopup={showOption}
         closePopup={() => setShowOption(false)}
         onComplete={handleOnCompleted}
+        onEdit={() => setShowModal(true)}
       />
+
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <div className="w-[512px] flex flex-col">
+          <h1 className="font-medium text-[18px] mb-[18px]">Edit Todo</h1>
+
+          <TodoForm todo={todo} />
+        </div>
+      </Modal>
 
       <h6 className="font-bold text-[16px]">{todo.title}</h6>
       <div className="flex flex-wrap gap-[8px]">

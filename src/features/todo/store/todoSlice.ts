@@ -42,11 +42,24 @@ export const addTodo = createAsyncThunk("todo/addTodo", async (todo: ITodoData, 
 
     const todoRef = doc(collection(db, "users", state.auth.userId, "todos"));
 
-    const data = { id: todoRef.id, ...todo };
+    // const data = { id: todoRef.id, ...todo };
+    const data = { ...todo, id: todoRef.id };
 
     await setDoc(todoRef, data);
 
     return data;
+});
+
+
+export const updateATodo = createAsyncThunk("todo/updateATodo", async (todo: ITodoData, thunkApi) => {
+    const updatedData = { ...todo };
+    const state = thunkApi.getState() as RootState;
+
+    const todoRef = doc(db, "users", state.auth.userId, "todos", todo.id!);
+
+    await updateDoc(todoRef, updatedData);
+
+    return todo;
 });
 
 
@@ -105,6 +118,9 @@ export const completeDailyTodo = createAsyncThunk("todo/completeDailyTodo", asyn
         }
 
 
+    } else if (todo.lastStreak == null && todo.streak >= 1) {
+        // User edited their todo
+        updatedData = { ...todo, streak: todo.streak + 1, lastStreak: today.getTime() }
     } else {
 
         //User don't have a lastStreak set
@@ -250,7 +266,7 @@ const todoSlice = createSlice({
 
 
                 // The todo doesn't start today, move to upcoming todos
-                if (todayWeekName !== action.payload.daysPerWeek[0]) {
+                if (!action.payload.daysPerWeek.includes(todayWeekName)) {
                     state.upcomingDailyTodos.unshift(action.payload);
                     return;
                 }
@@ -260,6 +276,46 @@ const todoSlice = createSlice({
             // If the new todo is "weekly" add it to the weeklyTodos in store
             if (action.payload.trackingType === "weekly") {
                 state.weeklyTodos.unshift(action.payload);
+            }
+        })
+        builder.addCase(updateATodo.fulfilled, (state, action) => {
+            // Check if in DAILY todo and get index
+            const indexInDailyTodo = state.dailyTodos.findIndex(todo => todo.id === action.payload.id);
+
+            // Handle for daily
+            if (indexInDailyTodo !== -1 && action.payload.trackingType === "daily") {
+                // Still a daily todo, update
+                state.dailyTodos.splice(indexInDailyTodo, 1, action.payload);
+            }
+
+            if (indexInDailyTodo !== -1 && action.payload.trackingType === "weekly") {
+                // Todo trackingType was updated from "daily" to "weekly"
+                // Remove todo from dailyTodos
+                state.dailyTodos.splice(indexInDailyTodo, 1);
+
+                // Add todo to weekly todos
+                state.weeklyTodos.unshift(action.payload);
+
+                return;
+            }
+
+
+            // Check if in WEEKLY todo and get index
+            const indexInWeeklyTodo = state.weeklyTodos.findIndex(todo => todo.id === action.payload.id);
+
+            // Handle for weekly
+            if (indexInWeeklyTodo !== -1 && action.payload.trackingType === "weekly") {
+                // Still a weekly todo, update
+                state.dailyTodos.splice(indexInWeeklyTodo, 1, action.payload);
+            }
+
+            if (indexInWeeklyTodo !== -1 && action.payload.trackingType === "daily") {
+                // Todo trackingType was updated from "weekly" to "daily"
+                // Remove todo from weeklyTodos
+                state.weeklyTodos.splice(indexInWeeklyTodo, 1);
+
+                // Add todo to daily todos
+                state.dailyTodos.unshift(action.payload);
             }
         })
         builder.addCase(completeDailyTodo.fulfilled, (state, action) => {

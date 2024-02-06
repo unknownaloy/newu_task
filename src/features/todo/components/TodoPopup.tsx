@@ -5,9 +5,15 @@ type TodoPopupProp = {
   showPopup: boolean;
   closePopup: () => void;
   onComplete: () => void;
+  onEdit: () => void;
 };
 
-const TodoPopup = ({ showPopup, closePopup, onComplete }: TodoPopupProp) => {
+const TodoPopup = ({
+  showPopup,
+  closePopup,
+  onComplete,
+  onEdit,
+}: TodoPopupProp) => {
   const popupRef = useRef(null);
 
   useOnClickOutside(popupRef, () => closePopup());
@@ -27,7 +33,13 @@ const TodoPopup = ({ showPopup, closePopup, onComplete }: TodoPopupProp) => {
           >
             Complete
           </div>
-          <div className="font-normal text-[14px] hover:font-semibold transition-all cursor-pointer">
+          <div
+            onClick={() => {
+              onEdit();
+              closePopup();
+            }}
+            className="font-normal text-[14px] hover:font-semibold transition-all cursor-pointer"
+          >
             Edit
           </div>
         </div>

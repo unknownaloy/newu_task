@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import Modal from "./Modal";
 import TodoForm from "../features/todo/TodoForm";
 
@@ -8,9 +9,9 @@ const AddTodoButton = () => {
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
         <div className="w-[512px] flex flex-col">
-            <h1 className="font-medium text-[18px] mb-[18px]">Add Todo</h1>
+          <h1 className="font-medium text-[18px] mb-[18px]">Add Todo</h1>
 
-            <TodoForm />
+          <TodoForm />
         </div>
       </Modal>
       <button

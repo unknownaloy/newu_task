@@ -24,3 +24,15 @@ export const arrangeDaysOfWeek = (selectedDays: string[]): string[] => {
 
     return result;
 }
+
+
+
+/**
+ * Capitalizes the first letter of a string.
+ *
+ * @param {string} value - The input string.
+ * @returns {string} The input string with the first letter capitalized.
+ */
+export const capitalizeFirstLetter = (value: string): string => {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+}

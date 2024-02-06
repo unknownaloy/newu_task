@@ -4,6 +4,8 @@ import TodoPopup from "./TodoPopup";
 import { ITodoData } from "../../../common/interfaces/ITodoData";
 import { useAppDispatch } from "../../../app/hooks";
 import { completeWeeklyTodo } from "../store/todoSlice";
+import Modal from "../../../shared/Modal";
+import TodoForm from "../TodoForm";
 
 type WeeklyCardProp = {
   todo: ITodoData;
@@ -13,6 +15,8 @@ const WeeklyCard = ({ todo }: WeeklyCardProp) => {
   const dispatch = useAppDispatch();
 
   const [showOption, setShowOption] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
 
   const handleShowPopup = (): void => {
     setShowOption(prevState => !prevState);
@@ -33,7 +37,16 @@ const WeeklyCard = ({ todo }: WeeklyCardProp) => {
         showPopup={showOption}
         closePopup={() => setShowOption(false)}
         onComplete={handleOnCompleted}
+        onEdit={() => setShowModal(true)}
       />
+
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <div className="w-[512px] flex flex-col">
+          <h1 className="font-medium text-[18px] mb-[18px]">Edit Todo</h1>
+
+          <TodoForm todo={todo} />
+        </div>
+      </Modal>
 
       <h6 className="font-bold text-[16px]">{todo.title}</h6>
 
