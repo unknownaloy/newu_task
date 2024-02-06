@@ -23,7 +23,7 @@ const HomeScreen = () => {
     <div className="flex flex-col">
       <WelcomeAndDate />
 
-      <div className="grid grid-cols-12 gap-[16px] mx-[24px] mt-[56px]">
+      <div className="grid lg:grid-cols-12 gap-[16px] mx-[24px] mt-[56px] grid-cols-1">
         <DailyTodos />
         <WeeklyTodos />
         <UpcomingTodos />

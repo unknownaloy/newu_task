@@ -8,7 +8,7 @@ const AddTodoButton = () => {
   return (
     <>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
-        <div className="w-[512px] flex flex-col">
+        <div className="lg:w-[512px] flex flex-col w-[320px]">
           <h1 className="font-medium text-[18px] mb-[18px]">Add Todo</h1>
 
           <TodoForm />

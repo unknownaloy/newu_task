@@ -22,7 +22,7 @@ const TodoPopup = ({
       {showPopup && (
         <div
           ref={popupRef}
-          className="transition-all z-40 absolute bg-white w-[96px] flex flex-col gap-[10px] h-auto shadow-md rounded-[4px] right-[-88px] top-[-8px] py-[8px] px-[16px]"
+          className="transition-all z-40 absolute bg-white w-[96px] flex flex-col gap-[10px] h-auto shadow-md rounded-[4px] lg:right-[-88px] right-[-2px] top-[-8px] py-[8px] px-[16px]"
         >
           <div
             onClick={() => {
