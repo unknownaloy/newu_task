@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Modal from "./Modal";
-import TodoForm from "../features/todo/TodoForm";
+import TodoForm from "../features/todo/components/TodoForm";
 
 const AddTodoButton = () => {
   const [open, setOpen] = useState(false);

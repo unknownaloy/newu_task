@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# NewU Todo-Streak Task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A streak feature for a todo app that tracks daily or weekly completion and preserves streaks when settings change. Users can customize tracking type, change settings, and view a simple UI. User data is back-up on Cloud Firestore
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Ensure you Node installed on your PC. You can download it from [here](https://nodejs.org/en/download/current)
+- Ensure you have an IDE installed, such as [Visual Studio Code](https://code.visualstudio.com/download) or [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Clone this repository to your local machine using `https://github.com/unknownaloy/newu_task.git`
+- Open the project in your preferred code editor.
+- Run `npm install` to install the app's dependencies.
+- Run `npm run dev` to build the app on your browser.
 
-- Configure the top-level `parserOptions` property like this:
+## Running Tests
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- Open the project in your preferred code editor.
+- Run `flutter test` to run all tests in the project
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Feature
+
+- Feature to add a daily todo and pick customized dates
+- Feature to add a weekly todo and pick frequency per week
+- Feature to track streak of todo and reset streak when broken
+- Feature to edit/change todo type from daily to weekly or vise-versa while maintaining current streak
+- Feature to keep track on user's longest streak count for a todo
+
+## Further Improvements
+
+- Implement better error handling across the app
+- Implement unit test to help ascertain core logics
+- Implement mobile responsiveness for the app

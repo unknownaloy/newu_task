@@ -5,7 +5,7 @@ import { ITodoData } from "../../../common/interfaces/ITodoData";
 import { useAppDispatch } from "../../../app/hooks";
 import { completeWeeklyTodo } from "../store/todoSlice";
 import Modal from "../../../shared/Modal";
-import TodoForm from "../TodoForm";
+import TodoForm from "./TodoForm";
 
 type WeeklyCardProp = {
   todo: ITodoData;

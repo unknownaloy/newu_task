@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 
-import DaysSelector from "../../shared/DaysSelector";
-import NumberInput from "../../shared/NumberInput";
+import DaysSelector from "../../../shared/DaysSelector";
+import NumberInput from "../../../shared/NumberInput";
 
-import { TodoFormInterface } from "../../common/interfaces/TodoFormInterface";
-import { ITodoData } from "../../common/interfaces/ITodoData";
-import { addTodoSchema } from "./addTodoSchema";
+import { TodoFormInterface } from "../../../common/interfaces/TodoFormInterface";
+import { ITodoData } from "../../../common/interfaces/ITodoData";
+import { addTodoSchema } from "../addTodoSchema";
 import {
   arrangeDaysOfWeek,
   capitalizeFirstLetter,
-} from "../../utils/todoHelper";
-import { useAppDispatch } from "../../app/hooks";
-import { addTodo, updateATodo } from "./store/todoSlice";
+} from "../../../utils/todoHelper";
+import { useAppDispatch } from "../../../app/hooks";
+import { addTodo, updateATodo } from "../store/todoSlice";
 
 type TodoFormProp = {
   todo?: ITodoData;

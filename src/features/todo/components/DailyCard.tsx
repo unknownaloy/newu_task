@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../../app/hooks";
 import { completeDailyTodo } from "../store/todoSlice";
 import TodoPopup from "./TodoPopup";
 import Modal from "../../../shared/Modal";
-import TodoForm from "../TodoForm";
+import TodoForm from "./TodoForm";
 
 type DailyCardProp = {
   todo: ITodoData;
